@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accident Severity Analysis - Radar Charts</title>
+    <script src="d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #d8d6d6;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .carousel-shell {
+            max-width: 620px;
+            margin: 0 auto;
+        }
+        .carousel-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin: 0 0 16px;
+        }
+        .nav-button {
+            border: none;
+            border-radius: 999px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            background: #333;
+            cursor: pointer;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .nav-button:hover:not(:disabled) {
+            transform: translateY(-1px);
+        }
+        .nav-button:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+        .chart-counter {
+            flex: 1;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #444;
+        }
+        .carousel-viewport {
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.35s ease;
+            will-change: transform;
+        }
+        .radar-chart-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+            flex: 0 0 100%;
+        }
+        .radar-chart-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        svg {
+            display: block;
+            margin: 0 auto;
+        }
+        .radar-legend {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .legend-item {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        .legend-color {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-right: 5px;
+            vertical-align: middle;
+            border-radius: 2px;
+        }
+        .tooltip {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel-shell">
+        <div class="carousel-controls">
+            <button id="prevChart" class="nav-button" type="button">Prev</button>
+            <div id="chartCounter" class="chart-counter"></div>
+            <button id="nextChart" class="nav-button" type="button">Next</button>
+        </div>
+        <div class="carousel-viewport">
+            <div class="carousel-track" id="chartsContainer"></div>
+        </div>
+    </div>
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Configuration
+        const SEVERITY_LEVELS = [1, 2, 3];
+        const SEVERITY_NAMES = {
+            1: 'Person Killed',
+            2: 'Serious Injury',
+            3: 'Slight Injury'
+        };
+        const SEVERITY_COLORS = {
+            1: '#d62728',  // Red
+            2: '#ff7f0e',  // Orange
+            3: '#2ca02c'   // Green
+        };
+
+        const SVG_SIZE = 500;
+        const MARGIN = 60;
+        const CHART_RADIUS = (SVG_SIZE - 2 * MARGIN) / 2;
+
+        const chartState = {
+            currentIndex: 0,
+            chartCount: SEVERITY_LEVELS.length,
+            maxValue: 0
+        };
+
+        // Load data from roadSurface2 normalized JSON
+        d3.json('public/heatmaps/roadSurface2_accident_counts_by_severity_year_percent.json').then(data => {
+            const dataBySeverity = {};
+            const totals = {}; // Store total counts per severity
+            const yearsSet = new Set();
+
+            data.accident_detail.forEach(detail => {
+                const sev = Number(detail.severity);
+                dataBySeverity[sev] = {};
+                totals[sev] = detail.total; // Store the total
+                const yearCounts = detail.year_count || {};
+                Object.entries(yearCounts).forEach(([year, percentage]) => {
+                    dataBySeverity[sev][year] = Number(percentage);
+                    yearsSet.add(year);
+                    // Track max value for scaling
+                    if (Number(percentage) > chartState.maxValue) {
+                        chartState.maxValue = Number(percentage);
+                    }
+                });
+            });
+
+            const years = Array.from(yearsSet).sort((a, b) => Number(a) - Number(b));
+            const container = d3.select('#chartsContainer');
+
+            SEVERITY_LEVELS.forEach(severity => {
+                createRadarChart(container, dataBySeverity, severity, years, totals[severity]);
+            });
+
+            setupCarousel();
+        }).catch(err => {
+            console.error('Failed to load severity data:', err);
+        });
+
+        function setupCarousel() {
+            const track = document.getElementById('chartsContainer');
+            const prevButton = document.getElementById('prevChart');
+            const nextButton = document.getElementById('nextChart');
+            const counter = document.getElementById('chartCounter');
+
+            function render() {
+                track.style.transform = `translateX(-${chartState.currentIndex * 100}%)`;
+                prevButton.disabled = chartState.currentIndex === 0;
+                nextButton.disabled = chartState.currentIndex === chartState.chartCount - 1;
+                counter.textContent = `Chart ${chartState.currentIndex + 1} of ${chartState.chartCount}`;
+            }
+
+            prevButton.addEventListener('click', () => {
+                if (chartState.currentIndex > 0) {
+                    chartState.currentIndex -= 1;
+                    render();
+                }
+            });
+
+            nextButton.addEventListener('click', () => {
+                if (chartState.currentIndex < chartState.chartCount - 1) {
+                    chartState.currentIndex += 1;
+                    render();
+                }
+            });
+
+            render();
+        }
+
+        function createRadarChart(container, dataBySeverity, severity, years, total) {
+            const numAxes = years.length;
+
+            const chartDiv = container.append('div')
+                .attr('class', 'radar-chart-container');
+
+            chartDiv.append('div')
+                .attr('class', 'radar-chart-title')
+                .text(`Severity: ${SEVERITY_NAMES[severity]}`);
+
+            const svg = chartDiv.append('svg')
+                .attr('width', SVG_SIZE)
+                .attr('height', SVG_SIZE);
+
+            const g = svg.append('g')
+                .attr('transform', `translate(${SVG_SIZE / 2}, ${SVG_SIZE / 2})`);
+
+            const radialScale = d3.scaleLinear()
+                .domain([0, chartState.maxValue])
+                .range([0, CHART_RADIUS]);
+
+            const numGridLines = 5;
+            for (let i = 1; i <= numGridLines; i++) {
+                const gridValue = (i / numGridLines) * chartState.maxValue;
+                const radius = (CHART_RADIUS / numGridLines) * i;
+                g.append('circle')
+                    .attr('cx', 0)
+                    .attr('cy', 0)
+                    .attr('r', radius)
+                    .style('fill', 'none')
+                    .style('stroke', '#ddd')
+                    .style('stroke-width', 1);
+
+                g.append('text')
+                    .attr('x', 0)
+                    .attr('y', -radius)
+                    .attr('dy', '-0.25em')
+                    .attr('text-anchor', 'middle')
+                    .style('font-size', '10px')
+                    .style('fill', '#666')
+                    .text(gridValue.toFixed(1));
+            }
+
+            const angleSlice = (Math.PI * 2) / numAxes;
+
+            years.forEach((year, i) => {
+                const angle = angleSlice * i - Math.PI / 2;
+                const x = CHART_RADIUS * Math.cos(angle);
+                const y = CHART_RADIUS * Math.sin(angle);
+
+                g.append('line')
+                    .attr('x1', 0)
+                    .attr('y1', 0)
+                    .attr('x2', x)
+                    .attr('y2', y)
+                    .style('stroke', '#ccc')
+                    .style('stroke-width', 1);
+
+                const labelRadius = CHART_RADIUS + 30;
+                const labelX = labelRadius * Math.cos(angle);
+                const labelY = labelRadius * Math.sin(angle);
+
+                g.append('text')
+                    .attr('x', labelX)
+                    .attr('y', labelY)
+                    .attr('text-anchor', 'middle')
+                    .attr('dy', '0.35em')
+                    .style('font-size', '12px')
+                    .style('font-weight', 'bold')
+                    .text(year);
+            });
+
+            // Draw single polygon for this severity
+            const yearCounts = dataBySeverity[severity] || {};
+
+            const points = years.map((year, i) => {
+                const angle = angleSlice * i - Math.PI / 2;
+                const pctValue = Number(yearCounts[year] || 0);
+                const radius = radialScale(pctValue);
+                const x = radius * Math.cos(angle);
+                const y = radius * Math.sin(angle);
+                return [x, y];
+            });
+
+            const polygonPath = d3.line()(points) + 'Z';
+
+            g.append('path')
+                .attr('d', polygonPath)
+                .style('fill', SEVERITY_COLORS[severity])
+                .style('fill-opacity', 0.25)
+                .style('stroke', SEVERITY_COLORS[severity])
+                .style('stroke-width', 2.5)
+                .on('mouseover', function() {
+                    d3.select(this).style('fill-opacity', 0.4);
+                    const tooltip = document.getElementById('tooltip');
+                    tooltip.textContent = `Total: ${total.toLocaleString()} accidents`;
+                    tooltip.style.display = 'block';
+                })
+                .on('mousemove', function(event) {
+                    const tooltip = document.getElementById('tooltip');
+                    tooltip.style.left = (event.clientX + 10) + 'px';
+                    tooltip.style.top = (event.clientY + 10) + 'px';
+                })
+                .on('mouseout', function() {
+                    d3.select(this).style('fill-opacity', 0.25);
+                    const tooltip = document.getElementById('tooltip');
+                    tooltip.style.display = 'none';
+                });
+
+            // Add legend
+            const legend = chartDiv.append('div')
+                .attr('class', 'radar-legend');
+
+            const item = legend.append('div')
+                .attr('class', 'legend-item');
+
+            item.append('span')
+                .attr('class', 'legend-color')
+                .style('background-color', SEVERITY_COLORS[severity]);
+
+            item.append('span')
+                .text(SEVERITY_NAMES[severity]);
+        }
+    </script>
+</body>
+</html>

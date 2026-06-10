@@ -1,0 +1,191 @@
+[
+  {
+    "year": 2016,
+    "accident_data": {
+      "Schleswig-Holstein": 11692,
+      "Hamburg": 7215,
+      "Lower Saxony": 0,
+      "Bremen": 2932,
+      "North Rhine-Westphalia": "No Data",
+      "Hesse": 19678,
+      "Rhineland-Palatinate": 13281,
+      "Baden-Wuerttemberg": 33931,
+      "Bavaria": 50121,
+      "Saarland": "No Data",
+      "Berlin": "No Data",
+      "Brandenburg": "No Data",
+      "Mecklenburg-Western Pomerania": "No Data",
+      "Saxony": 12823,
+      "Saxony-Anhalt": "No Data",
+      "Thuringia": "No Data"
+    }
+  },
+  {
+    "year": 2017,
+    "accident_data": {
+      "Schleswig-Holstein": 11435,
+      "Hamburg": 7079,
+      "Lower Saxony": 27014,
+      "Bremen": 3000,
+      "North Rhine-Westphalia": "No Data",
+      "Hesse": 19494,
+      "Rhineland-Palatinate": 13189,
+      "Baden-Wuerttemberg": 33553,
+      "Bavaria": 49108,
+      "Saarland": 3170,
+      "Berlin": "No Data",
+      "Brandenburg": 8407,
+      "Mecklenburg-Western Pomerania": "No Data",
+      "Saxony": 12516,
+      "Saxony-Anhalt": 7264,
+      "Thuringia": "No Data"
+    }
+  },
+  {
+    "year": 2018,
+    "accident_data": {
+      "Schleswig-Holstein": 11279,
+      "Hamburg": 7176,
+      "Lower Saxony": 27320,
+      "Bremen": 3107,
+      "North Rhine-Westphalia": "No Data",
+      "Hesse": 19811,
+      "Rhineland-Palatinate": 13503,
+      "Baden-Wuerttemberg": 34028,
+      "Bavaria": 49760,
+      "Saarland": 3378,
+      "Berlin": 13652,
+      "Brandenburg": 8637,
+      "Mecklenburg-Western Pomerania": "No Data",
+      "Saxony": 13101,
+      "Saxony-Anhalt": 7116,
+      "Thuringia": "No Data"
+    }
+  },
+  {
+    "year": 2019,
+    "accident_data": {
+      "Schleswig-Holstein": 11282,
+      "Hamburg": 6827,
+      "Lower Saxony": 26908,
+      "Bremen": 2940,
+      "North Rhine-Westphalia": 57454,
+      "Hesse": 18951,
+      "Rhineland-Palatinate": 13093,
+      "Baden-Wuerttemberg": 32964,
+      "Bavaria": 47461,
+      "Saarland": 3361,
+      "Berlin": 13390,
+      "Brandenburg": 8691,
+      "Mecklenburg-Western Pomerania": "No Data",
+      "Saxony": 12625,
+      "Saxony-Anhalt": 7124,
+      "Thuringia": 5299
+    }
+  },
+  {
+    "year": 2020,
+    "accident_data": {
+      "Schleswig-Holstein": 10200,
+      "Hamburg": 6096,
+      "Lower Saxony": 23622,
+      "Bremen": 2419,
+      "North Rhine-Westphalia": 49328,
+      "Hesse": 15873,
+      "Rhineland-Palatinate": 11626,
+      "Baden-Wuerttemberg": 28450,
+      "Bavaria": 41424,
+      "Saarland": 2800,
+      "Berlin": 11810,
+      "Brandenburg": 7679,
+      "Mecklenburg-Western Pomerania": 4427,
+      "Saxony": 11310,
+      "Saxony-Anhalt": 6312,
+      "Thuringia": 4618
+    }
+  },
+  {
+    "year": 2021,
+    "accident_data": {
+      "Schleswig-Holstein": 10252,
+      "Hamburg": 6397,
+      "Lower Saxony": 24604,
+      "Bremen": 2337,
+      "North Rhine-Westphalia": 50057,
+      "Hesse": 15867,
+      "Rhineland-Palatinate": 11285,
+      "Baden-Wuerttemberg": 28133,
+      "Bavaria": 42244,
+      "Saarland": 2818,
+      "Berlin": 11309,
+      "Brandenburg": 7646,
+      "Mecklenburg-Western Pomerania": 4334,
+      "Saxony": 10886,
+      "Saxony-Anhalt": 6112,
+      "Thuringia": 4545
+    }
+  },
+  {
+    "year": 2022,
+    "accident_data": {
+      "Schleswig-Holstein": 10666,
+      "Hamburg": 7174,
+      "Lower Saxony": 26523,
+      "Bremen": 2497,
+      "North Rhine-Westphalia": 53057,
+      "Hesse": 17463,
+      "Rhineland-Palatinate": 12025,
+      "Baden-Wuerttemberg": 30494,
+      "Bavaria": 44680,
+      "Saarland": 2919,
+      "Berlin": 12348,
+      "Brandenburg": 7942,
+      "Mecklenburg-Western Pomerania": 4508,
+      "Saxony": 12471,
+      "Saxony-Anhalt": 6718,
+      "Thuringia": 5007
+    }
+  },
+  {
+    "year": 2023,
+    "accident_data": {
+      "Schleswig-Holstein": 11657,
+      "Hamburg": 7332,
+      "Lower Saxony": 26605,
+      "Bremen": 2703,
+      "North Rhine-Westphalia": 59640,
+      "Hesse": 18255,
+      "Rhineland-Palatinate": 12398,
+      "Baden-Wuerttemberg": 31502,
+      "Bavaria": 46247,
+      "Saarland": 2993,
+      "Berlin": 12329,
+      "Brandenburg": 8216,
+      "Mecklenburg-Western Pomerania": 4601,
+      "Saxony": 12513,
+      "Saxony-Anhalt": 6880,
+      "Thuringia": 5177
+    }
+  },
+  {
+    "year": 2024,
+    "accident_data": {
+      "Schleswig-Holstein": 11731,
+      "Hamburg": 7031,
+      "Lower Saxony": 26451,
+      "Bremen": 2609,
+      "North Rhine-Westphalia": 59035,
+      "Hesse": 17947,
+      "Rhineland-Palatinate": 12164,
+      "Baden-Wuerttemberg": 31405,
+      "Bavaria": 46446,
+      "Saarland": 2970,
+      "Berlin": 12428,
+      "Brandenburg": 8365,
+      "Mecklenburg-Western Pomerania": 4639,
+      "Saxony": 12847,
+      "Saxony-Anhalt": 6983,
+      "Thuringia": 5468
+    }
+  }
+]

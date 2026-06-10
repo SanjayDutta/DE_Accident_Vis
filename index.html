@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="public/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Assignment 02</title>
+		<!-- global style -->
+		<link rel="stylesheet" href="style.css">
+		<!-- d3: version given with the assignment -->
+		<script src="./d3.v7.min.js"></script>
+		<script src="drawMap.js"></script>
+	</head>
+	<body>
+		<div>
+			<nav>
+				<img src="public/favicon.png" alt="logo" id="logo" />
+				<span id="assignment_id"></span>
+				<span class="divider"></span>
+				<span id="name"></span>
+			</nav>
+
+			<div class="intro-area">
+				<h2 style="padding-left:20px; float:left;width:40%;">In Germany, are you more likely to be in an accident on a Damp/Wet Road or an Slippery/Snow Road?</h2>
+				<p style="float: right;width:55%; font-style: italic;" >Human intuition suggests that icy roads are more dangerous, because ice feels dramatically more dangerous and slippery. People tend to focus on the perceived risk rather than the actual data.<br> And, data tells a different story.</p>
+			</div>
+			<br>
+			<div class="work-area">
+        		<table class="split-table" >
+					<h1 style="text-align:center; padding: 1rem;"><b>First</b>, where do most accidents occur in Germany?</h1>
+					<tbody>
+					
+            			<tr class="split-row">
+						<td class="split-cell left-pane">
+
+							<!-- navigation buttons inside left pane -->
+							<div class="nav-buttons" style="background-color: #d8d6d6; border-radius: 10px 10px 0px 0px; ">
+									<button id="prevBtn" class="nav-button" disabled>⬅</button>
+									<span id="yearLabel">Year: 2016</span>
+									<button id="nextBtn" class="nav-button">➡</button>
+									<button id="resetBtn" class="nav-button">Reset</button>
+								</div>
+
+
+							<div class="left-frame-container" style=" overflow:hidden; background-color: #d8d6d6;"> 
+								<div style="padding: 20px; ">
+									<iframe id="leftFrame2016" src="./heatmap_html/2016.html" scrolling="no" frameborder="0" style="border-radius: 10px;"></iframe> 
+									<iframe id="leftFrame2017" src="./heatmap_html/2017.html" scrolling="no" frameborder="0" style="display:none;border-radius: 10px;"></iframe>
+									<iframe id="leftFrame2018" src="./heatmap_html/2018.html" scrolling="no" frameborder="0" style="display:none;border-radius: 10px;"></iframe>
+									<iframe id="leftFrame2019" src="./heatmap_html/2019.html" scrolling="no" frameborder="0" style="display:none;border-radius: 10px;"></iframe>
+									<iframe id="leftFrame2020" src="./heatmap_html/2020.html" scrolling="no" frameborder="0" style="display:none;border-radius: 10px;"></iframe>
+									<iframe id="leftFrame2021" src="./heatmap_html/2021.html" scrolling="no" frameborder="0" style="display:none;border-radius: 10px;"></iframe>
+									<iframe id="leftFrame2022" src="./heatmap_html/2022.html" scrolling="no" frameborder="0" style="display:none;border-radius: 10px;"></iframe>
+									<iframe id="leftFrame2023" src="./heatmap_html/2023.html" scrolling="no" frameborder="0" style="display:none;border-radius: 10px;"></iframe>
+									<iframe id="leftFrame2024" src="./heatmap_html/2024.html" scrolling="no" frameborder="0" style="display:none;border-radius: 10px;"></iframe>
+								</div>
+								</div>
+							
+						</td>
+						<td class="split-cell right-pane">
+							
+							<h3>Accident Hotspots throughout 2016 to 2024</h3>
+							<p>The highest accident-intensity areas appear to be around</p>
+							<ul>
+				  				<li><b>Berlin:</b><span> A large population and dense urban traffic </span></li>
+				  				<li><b>Munich:</b><span> Heavy traffic, with winter driving conditions </span></li>
+				  				<li><b>Hamburg:</b><span> Major port city with significant traffic </span></li>
+							</ul>
+							<b>Some Observation</b>
+							<ul>
+								<li>
+									<b>Hamburg</b> : In 2017 there multiple and large dense areas of higher intense accidents. This reduced in the following years, but we do see an increase between 2020 and 2021. This likely due to the COVID-19 pandemic, which led to reduced traffic and fewer accidents overall.
+								</li>
+								<br>
+								<li>
+									<b>A8 Highway</b>: Along the A8 highway, we have concentration of accidents, especially around the state borders of Bavaria and Baden-Württemberg. This is likely due to the high traffic volume on this major east-west route, which connects cities like Munich and Stuttgart. 
+								
+								</li>
+							</ul>
+							<p style="font-style: italic;"> 
+							The heatmap is based of the <u>Kernel Density Estimation (Gaussian)</u> on a 3000m hexagonal grid.</p><p>We weight each accident by severity and compute how much each accident contributes to neighbouring hex cells. </p>
+							<details>
+								<summary>Severity Weights</summary>
+								<table>
+								
+								<tbody>
+									<tr>
+										<td>Severity1 - (Killed)</td>
+										<td>Weight 5</td>
+									</tr>
+									<tr>
+										<td>Severity2 - (Seriously Injured)</td>
+										<td>Weight 3</td>
+									</tr>
+									<tr>
+										<td>Severity3 - (Non-Seriously Injured)</td>
+										<td>Weight 1</td>
+									</tr>
+							</table>
+							</details>
+							
+						</td>
+						</tr>
+					</tbody>
+				</table>
+				<br>
+				<br>
+				<h1 style="text-align:center; padding: 1rem;">Based on severity, on which type of roads do most accidents occur?</h1>
+					
+				<table class="split-table">
+          			<tbody>
+            			<tr class="split-row">
+						<td class="split-cell left-pane">
+							<div class="left-frame-container" style="border-radius:20px; overflow:hidden;padding-bottom: 50px;"> 
+							<iframe id="radarChartFrame" src="./severity2.html" scrolling="no" frameborder="0" style="border-radius: 20px;"></iframe>
+							</div>
+							<!-- navigation buttons inside left pane -->
+							
+						</td>
+						<td class="split-cell right-pane">
+							
+							<h3>On which road conditions do most of accidents occurs, based on severity?</h3>
+							<p>
+								Most of the accidents occur on dry roads. More people tend to drive their vehicles on dry roads, espeically during summer season, which leads to higher traffic volume and consequently more accidents. Additionally, drivers may be less cautious on dry roads, leading to more accidents. 
+							</p>
+							<p>On the other hand, contrary to what one might expect, even though icy and snowy roads are more dangerous, they typically see <span style="font-weight: bold;">fewer</span> accidents. This might because  of the <span style="font-weight: bold;">"Human Tendency"</span> - Fewer people drive in those conditions and those who do are often more cautious.</p>
+							<p>
+								Wet/Damp roads have a higher count of accidents compared to icy/snowy roads.<ul><li> This could be because people may underestimate the risks associated with them, leading to more accidents.</li><li> Additionally, wet roads can cause <span style="font-weight: bold;">hydroplaning</span>, which can lead to loss of control and accidents.</li></ul>
+							</p>
+							<p>To represent various severity of accidents based on road conditions, we use a radar-chart, visualizing yearly frequencies of accidents in terms of percentages.</p>
+							<details>
+							<summary>Total Count of accidents based on severity (2016-2024)</summary>
+							<table style="font-size: 0.9rem;">
+								<thead>
+									<tr>
+										<th>Road Condition</th>
+										<th>Killed </th>
+										<th>Seriously Injured</th>
+										<th>Non-Seriously Injured</th>
+									</tr>
+								</thead>
+								<tbody style="text-align: center;">
+									<tr>
+										<td>Dry</td>
+										<td>15380</td>
+										<td>286655</td>
+										<td>1255715</td>
+									</tr>
+									<tr>
+										<td>Wet/Damp</td>
+										<td>4897</td>
+										<td>82386</td>
+										<td>407633</td>
+									</tr>
+									<tr>
+										<td>Slippery/Snowy</td>
+										<td>326</td>
+										<td>7745</td>
+										<td>37282</td>
+									</tr>
+
+								</tbody>
+							</table>
+						</details>
+						</td>
+						
+						</tr>
+						
+					</tbody>
+				</table>
+				<br>
+				<h1 style="text-align:center; padding: 1rem;">Wait !!!, what is that spike in 2021?</h1>
+				
+				<table class="split-table">
+          			<tbody>
+            			<tr class="split-row">
+						<td class="split-cell left-pane">
+							<div class="left-frame-container" style="border-radius:20px; overflow:hidden;padding-bottom: 50px;"> 
+							<iframe id="radarChartFrame" src="./severity3.html" scrolling="no" frameborder="0" style="border-radius: 20px;"></iframe>
+							</div>
+							<!-- navigation buttons inside left pane -->
+							
+						</td>
+						<td class="split-cell right-pane">
+							<h3>Do you see the spike for Slippery/Snowy road conditions in the year 2021?</h3>
+							<p>Lets take a closer look.</p>
+							<p>In 2021, there was spike in the number of accidents on <span style="font-weight: bold;">slippery/snowy</span> road conditions.</p>
+								<ul>
+				  				<li>For accident leading to fatality, there was a 3x increase.</li>
+				  				<li>We see a similar trend for seriously injured accidents, an increase of 134%</li>
+								<li>In terms of absoluted increase, non-serious accidents also saw a notable rise, from 2231 to <span style="font-weight: bold;">5945</span></li>
+				  			</ul>
+
+							<p>This is most likely the <span style="font-weight: bold;">Dip & Rebound</span> Effect, a result of the relaxation of lockdown measures caused due to COVID-19 pandemic in 2020.</p>
+							<p>A increase is expected, but not such a huge spike. </p>
+							<p> Furthermore, we dont see similar spikes for the other road conditions, only for slippery/snowy roads.</p>
+							<p>Perhaps a possible reason could be a sudden and strong cold/snow event in February 2021, bringing heavy snowfall up to around 30–80 cm locally, strong winds, and traffic chaos, which led to many accidents and disruptions. <a href="https://www.dw.com/en/germany-snowed-in-by-extreme-winter-weather/g-56489929" target="_blank">Source</a></p>
+						</td>
+						</tr>
+					</tbody>
+				</table>
+				<br>
+				<h1 style="text-align:center; padding: 1rem; line-height: 100%;">A Wet/Damp road is perhaps more dangerous than one might think.
+					<br>Statistically, you are more likely to be in an accident while travelling on a damp/wet road compared to travelling on a slippery/snowy road.
+					<br><br> 
+					It is as essential to drive with extra caution on wet/damp roads as well as on slippery/snowy roads.</h1>
+				
+				
+			</div>
+
+
+
+			
+		</div>
+	</body>
+</html>
+
+<script>
+
+	const assignment_id = "02"
+	const student_name = "Sanjay Dutta" // type your name here
+
+	function loadData() {
+		(async function() {
+			try {
+				const unfallatlasData = await d3.json("public/accident_data_2016-2024.json")
+				const germanyData = await d3.json("public/germany_states.geo.json")
+
+				// call function to draw the map and the cities information
+				drawMap(unfallatlasData, germanyData)
+			} catch(error) {
+				console.log(error)
+			}
+		})();		
+	}
+
+
+	// nav bar: fill assignment number and student name 
+	document.getElementById("assignment_id").innerHTML = "<b>PCIV</b> Assignment: "+assignment_id
+	document.getElementById("name").innerText = student_name
+	
+	// load data and plot map
+	loadData()		
+
+// --- iframe navigation (Previous / Next) ---
+document.addEventListener('DOMContentLoaded', () => {
+	const frameEls = [document.getElementById('leftFrame2016'), document.getElementById('leftFrame2017'), document.getElementById('leftFrame2018'), document.getElementById('leftFrame2019'), document.getElementById('leftFrame2020'), document.getElementById('leftFrame2021'), document.getElementById('leftFrame2022'), document.getElementById('leftFrame2023'), document.getElementById('leftFrame2024')];
+	const years = [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
+	let idx = 0; // start showing 2016
+	const prevBtn = document.getElementById('prevBtn');
+	const resetBtn = document.getElementById('resetBtn');
+	const nextBtn = document.getElementById('nextBtn');
+	const yearLabel = document.getElementById('yearLabel');
+
+	if (!frameEls[0] || !frameEls[1] || !prevBtn || !nextBtn || !resetBtn) {
+		console.warn('Iframe navigation elements not found');
+		return;
+	}
+
+	function updateButtons() {
+		prevBtn.disabled = idx <= 0;
+		nextBtn.disabled = idx >= frameEls.length - 1;
+		if (yearLabel) yearLabel.textContent = `Year: ${years[idx]}`;
+	}
+
+	function setFrame(i) {
+		if (i < 0 || i >= frameEls.length) return;
+		idx = i;
+		frameEls.forEach((el, j) => {
+			el.style.display = (j === idx) ? 'block' : 'none';
+		});
+		updateButtons();
+	}
+
+	prevBtn.addEventListener('click', () => setFrame(idx - 1));
+	nextBtn.addEventListener('click', () => setFrame(idx + 1));
+	resetBtn.addEventListener('click', () => {
+		const activeFrame = frameEls[idx];
+		if (!activeFrame || !activeFrame.contentWindow) return;
+		if (typeof activeFrame.contentWindow.resetMapZoom === 'function') {
+			activeFrame.contentWindow.resetMapZoom();
+		}
+	});
+
+	// ensure initial state
+	setFrame(0);
+});
+	
+  </script>

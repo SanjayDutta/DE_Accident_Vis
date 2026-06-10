@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="../public/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Assignment 02 - 2021 Heatmap (SVG Only)</title>
+		<!-- global style -->
+		<link rel="stylesheet" href="../style.css">
+		<!-- d3: version given with the assignment -->
+		<script src="../d3.v7.min.js"></script>
+		<script src="../drawMap.js"></script>
+	</head>
+	<body>
+		<div>
+			
+			<main></main>
+		</div>
+	</body>
+</html>
+
+<script>
+
+	
+	function loadData() {
+		(async function() {
+			try {
+				const unfallatlasData = await d3.json("../public/accident_data_2016-2024.json")
+				const germanyData = await d3.json("../public/germany_states.geo.json")
+				const metadata = await d3.json("../public/metadata.json")
+				const heatmap2021 = await d3.json("../public/heatmaps/heatmap_2021.json")
+					const yearlyData = await d3.json("../public/accidents_by_year_state.json")
+					const year2021Data = yearlyData.find(d => d.year === 2021).accident_data
+
+					// call function to draw the map and the cities information using SVG only
+					drawMap(unfallatlasData, germanyData, metadata, heatmap2021, year2021Data, {
+					stateFillColor: "#ebd5ed",
+					heatmapPalette: {
+						mode: "threshold",
+						thresholds: [0.25, 0.5],
+						colors: ["#4AA44C", "#FAB228", "#EF4338"]
+					}
+				})
+			} catch(error) {
+				// console.log(error)
+			}
+		})();		
+	}
+
+
+	
+	// load data and plot map
+	loadData()		
+	
+  </script>
+</html>

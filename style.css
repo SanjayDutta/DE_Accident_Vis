@@ -1,0 +1,249 @@
+:root {
+	font-family: Futura, Inter, Avenir, Helvetica, Arial, sans-serif;
+	font-size: 18px;
+	line-height: 24px;
+	font-weight: 400;
+
+	color-scheme: light dark;
+	color: rgba(20, 20, 20, 0.87);
+	background-color: #ffffff;
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
+}
+
+.intro-area {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1rem;
+	gap: 1rem;
+	background-color: #d8d6d6;
+	bottom:10px;
+}
+
+body {
+	margin: 0;
+	overflow: auto;
+}
+
+nav {
+	font-size: 1.2em;
+	display: flex;
+	padding: 1em;
+	align-items: center;
+	background-color: #242424;
+	color: #efecec;
+}
+
+nav > #logo {
+	height: 2em;
+	margin-right: 0.66em;
+}
+
+.divider {
+	flex-grow: 1;
+}
+
+@media (prefers-color-scheme: light) {
+	:root {
+		color: #213547;
+		background-color: #ffffff;
+	}
+	a:hover {
+		color: #747bff;
+	}
+	button {
+		background-color: #f9f9f9;
+	}
+}
+
+main {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: auto;
+}
+
+#heatmap-controls {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	z-index: 20;
+	background: rgba(20, 20, 20, 0.72);
+	color: #fff;
+	backdrop-filter: blur(8px);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	border-radius: 0.8rem;
+	padding: 0.8rem 1rem;
+	min-width: 340px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+}
+
+.heatmap-controls__title {
+	font-size: 0.9rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	margin-bottom: 0.45rem;
+}
+
+.heatmap-controls__row {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+
+#heatmap-year-label,
+#heatmap-year-count {
+	font-size: 0.9rem;
+	white-space: nowrap;
+}
+
+#heatmap-year-slider {
+	flex: 1;
+	accent-color: #ff6b35;
+	height: 1.5rem;
+}
+
+svg {
+	display: block;
+}
+
+#legend {
+	background-color: #fff5;
+	padding: 0.5em;
+	height: 4.5em;
+	border-radius: 0.5em;
+	backdrop-filter: blur(4px);
+	position: absolute;
+	bottom: 3em;
+	right: 1em;
+	width: 320px;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5em;
+}
+
+.work-area {
+	width: 95%;
+	height: 100%;
+	min-height: 90vh;
+	display: flex;
+	margin-left:30px;
+	flex-direction: column;
+}
+
+.nav-buttons {
+	display: flex;
+	gap: 0.5rem;
+	margin: 10px auto 0; /* center horizontally and add small top margin */
+	justify-content: center; /* center buttons */
+	padding-top: 10px; /* requested top padding */
+}
+
+.nav-button {
+	border: none;
+	border-radius: 999px;
+	padding: 10px 16px;
+	font-size: 14px;
+	font-weight: bold;
+	color: white;
+	background: #333;
+	cursor: pointer;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+
+.nav-button:hover:not(:disabled) {
+	transform: translateY(-1px);
+}
+
+.nav-button:disabled {
+	opacity: 0.35;
+	cursor: default;
+}
+
+.nav-buttons #yearLabel {
+	display: inline-flex;
+	align-items: center;
+	padding: 0 0.6rem;
+	font-weight: 700;
+	color: #333;
+}
+
+.split-table {
+	width: 100%;
+	height: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	table-layout: fixed;
+	border-radius: 20px;
+	background-color: #d8d6d6;
+	padding: 10px;
+	box-shadow: 5px 5px 5px;
+}
+
+
+.split-row {
+	height: 50%;
+}
+
+.split-cell {
+	vertical-align: top;
+	border: none;
+	padding: 0;
+}
+
+.left-pane {
+    width: 60%;
+    padding: 1rem 0 1rem 1rem; /* remove right padding to eliminate gap */
+    min-height: calc(100vh - 6.5em - 2rem); /* viewport minus navbar and padding */
+	
+    align-items: center;
+    justify-content: center;
+}
+
+.right-pane {
+    width: 40%;
+    padding: 1rem 1rem 1rem 1rem; /* remove left padding to eliminate gap */
+}
+
+.left-pane iframe {
+	display: block;
+	width: 100%;
+	height: calc(100vh - 6.5em - 2rem); /* ensure iframe fills left pane vertically */
+	max-height: calc(100vh - 6.5em - 2rem);
+	border: 0;
+	overflow: hidden; /* hide iframe native overflow */
+	/* hide scrollbars across browsers */
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* IE 10+ */
+}
+
+/* WebKit scrollbar hide */
+.left-pane iframe::-webkit-scrollbar {
+    display: none;
+}
+
+	/* stacked iframe container: position relative so iframes can be absolutely stacked */
+	.left-frame-container {
+		position: relative;
+		width: 100%;
+		height: calc(100vh - 6.5em - 2rem);
+	}
+
+	.left-frame-container iframe {
+		position: absolute;
+		top: 20px;
+		left: 20px;
+		width: calc(100% - 40px);
+		height: calc(100% - 40px);
+		border: 0;
+	}
