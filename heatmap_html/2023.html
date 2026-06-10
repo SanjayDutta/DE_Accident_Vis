@@ -24,7 +24,11 @@
 	function loadData() {
 		(async function() {
 			try {
-				const unfallatlasData = await d3.json("../public/accident_data_2016-2024.json")
+				const [part1, part2] = await Promise.all([
+					d3.json("../public/output/data_2023_part1.json"),
+					d3.json("../public/output/data_2023_part2.json")
+				]);
+				const unfallatlasData = part1.concat(part2);
 				const germanyData = await d3.json("../public/germany_states.geo.json")
 				const metadata = await d3.json("../public/metadata.json")
 				const heatmap2023 = await d3.json("../public/heatmaps/heatmap_2023.json")
